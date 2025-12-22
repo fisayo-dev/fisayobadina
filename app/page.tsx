@@ -86,11 +86,11 @@ const Home = () => {
     },
   ];
   return (
-    <div className="grid gap-8">
+    <div className="grid gap-8 bg-white dark:bg-gray-900 text-black dark:text-white">
       {/* Header: Greeting & Name Info: */}
       <div className="grid gap-3">
         <div
-          className="h-50 2xl:h-65 w-50 2xl:w-65 rounded-full overflow-hidden"
+          className="h-32 w-32 sm:h-40 sm:w-40 md:h-50 md:w-50 2xl:h-64 2xl:w-64 rounded-full overflow-hidden"
           style={{
             backgroundImage: "url('./fisayobadina.jpg')",
             backgroundSize: "cover",
@@ -120,19 +120,19 @@ const Home = () => {
             of the winners of the <b>JSM mastery hackathon</b> in 2024.
           </p>
         </div>
-        <button className="bg-white/10 cursor-pointer hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
+        <button className="bg-gray-200 dark:bg-white/10 cursor-pointer hover:bg-gray-300 dark:hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
           Download resume
         </button>
         {/* Projects */}
         <h1 className="text-sm font-bold">MY PROJECTS</h1>
         <div className="grid gap-3 mb-4">
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1  gap-3">
             {projects.map((project, index) => (
               <Link
                 target="_blank"
                 href={project.link}
                 key={index}
-                className="border border-white/20 rounded-2xl overflow-hidden  hover:bg-black/20 h-20 flex items-center gap-4 px-2"
+                className="border border-gray-200 dark:border-white/20 rounded-2xl overflow-hidden hover:bg-gray-100 dark:hover:bg-black/20 h-20 flex items-center gap-4 px-2"
               >
                 <Image
                   src={`${project.image || "./file.svg"}`}
@@ -144,7 +144,7 @@ const Home = () => {
                   <h2 className="text-xl font-bold">{project.name}</h2>
                   <h2 className="text-md ">{project.description}</h2>
                 </div>
-                <span className="p-3 text-sm rounded-full bg-white/10">
+                <span className="p-3 text-sm rounded-full bg-gray-100 dark:bg-white/10">
                   {project.language}
                 </span>
               </Link>
@@ -164,7 +164,7 @@ const Home = () => {
                 target="_blank"
                 href={startup.link}
                 key={index}
-                className="border border-white/20 rounded-2xl overflow-hidden  hover:bg-black/20 h-20 flex items-center gap-4 px-2"
+                className="border border-gray-200 dark:border-white/20 rounded-2xl overflow-hidden hover:bg-gray-100 dark:hover:bg-black/20 h-20 flex items-center gap-4 px-2"
               >
                 <Image
                   src={`${startup.logo || "./file.svg"}`}
