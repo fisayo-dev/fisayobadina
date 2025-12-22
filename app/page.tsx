@@ -1,0 +1,239 @@
+import Image from "next/image";
+import Link from "next/link";
+
+interface Projects {
+  link: string;
+  name: string;
+  description: string;
+  image?: string;
+  language: string;
+}
+
+interface Startups {
+  link: string;
+  name: string;
+  date: string;
+  logo?: string;
+}
+const Home = () => {
+  const projects: Projects[] = [
+    {
+      link: "https://github.com/fisayo-dev/rssagg",
+      name: "RSS Feed Aggregator",
+      description: "A simple rss feed aggregators for blogs.",
+      image: "",
+      language: "GO",
+    },
+    {
+      link: "https://scanzie.vercel.app",
+      name: "Scanzie",
+      description: "An seo web anaytics platform.",
+      image: "",
+      language: "JavaScript",
+    },
+    {
+      link: "https://scanzie.vercel.app",
+      name: "Bookmark Hub",
+      description: "Store your bookmark links.",
+      image: "",
+      language: "Next.js",
+    },
+    {
+      link: "https://raccvoting.vercel.app/",
+      name: "Racc",
+      description: "An internet voting space (JSM Hackathon).",
+      image: "",
+      language: "React.js",
+    },
+    {
+      link: "https://github.com/fisayo-dev",
+      name: "Shop app Api",
+      description: "A basic Modern shopping app API",
+      image: "",
+      language: "Node.js",
+    },
+    {
+      link: "https://joblier.vercel.app/",
+      name: "Joblier",
+      description: "A job market community.",
+      image: "",
+      language: "React.js",
+    },
+    {
+      link: "https://seekjob.vercel.app/",
+      name: "Seekjob",
+      description: "Job-seeking platform.",
+      image: "",
+      language: "React.js",
+    },
+  ];
+
+  const startups: Startups[] = [
+    {
+      link: "https://thefullstackcreators.com",
+      name: "The Full Stack Creators",
+      date: "24th April, 2025 - Present",
+    },
+    {
+      link: "https://printeaze.com",
+      name: "Printeaze - Campus printing",
+      date: "21st March - 1st May, 2025",
+    },
+    {
+      link: "https://pickogen.online",
+      name: "Pickogen - Design stock assets",
+      date: "Nov - 19th Dec, 2025",
+    },
+  ];
+  return (
+    <div className="grid gap-8">
+      {/* Header: Greeting & Name Info: */}
+      <div className="grid gap-3">
+        <div
+          className="h-50 2xl:h-65 w-50 2xl:w-65 rounded-full overflow-hidden"
+          style={{
+            backgroundImage: "url('./fisayobadina.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        ></div>
+      </div>
+      {/* Whole body */}
+      <div className="grid gap-3">
+        {/* Intro */}
+        <h1 className="text-sm font-bold">WHO AM I?</h1>
+        <div className="grid gap-3 mb-4">
+          <p className="">
+            My name is Fisayo Obadina, I&apos;m a Software Engineer with 6+
+            years of experience <b>in fullstack web development.</b> I have an
+            intense passion for solving problems with code; I so much love to
+            build projects 😁
+            <br />
+          </p>
+          <p>
+            I write most of my code in <b>JavaScript/Typescript</b> but, I am
+            also exploring other languages like <b>Go</b>, <b>Rust</b> and{" "}
+            <b>C++</b>.
+          </p>
+          <p>
+            I have also participated in a couple hackathons and emerged as one
+            of the winners of the <b>JSM mastery hackathon</b> in 2024.
+          </p>
+        </div>
+        <button className="bg-white/10 cursor-pointer hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
+          Download resume
+        </button>
+        {/* Projects */}
+        <h1 className="text-sm font-bold">MY PROJECTS</h1>
+        <div className="grid gap-3 mb-4">
+          <div className="grid grid-cols-1 gap-3">
+            {projects.map((project, index) => (
+              <Link
+                target="_blank"
+                href={project.link}
+                key={index}
+                className="border border-white/20 rounded-2xl overflow-hidden  hover:bg-black/20 h-20 flex items-center gap-4 px-2"
+              >
+                <Image
+                  src={`${project.image || "./file.svg"}`}
+                  alt={project.name}
+                  height={58}
+                  width={58}
+                />
+                <div className="flex flex-col items-start w-full">
+                  <h2 className="text-xl font-bold">{project.name}</h2>
+                  <h2 className="text-md ">{project.description}</h2>
+                </div>
+                <span className="p-3 text-sm rounded-full bg-white/10">
+                  {project.language}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+        {/* Startups */}
+        <h1 className="text-sm font-bold">STARTUPS</h1>
+        <span>
+          I have also worked together with teams to build startups. Some of them
+          are:
+        </span>
+        <div className="grid gap-3 mb-4">
+          <div className="grid grid-cols-1 gap-3">
+            {startups.map((startup, index) => (
+              <Link
+                target="_blank"
+                href={startup.link}
+                key={index}
+                className="border border-white/20 rounded-2xl overflow-hidden  hover:bg-black/20 h-20 flex items-center gap-4 px-2"
+              >
+                <Image
+                  src={`${startup.logo || "./file.svg"}`}
+                  alt={startup.name}
+                  height={58}
+                  width={58}
+                />
+                <div className="flex flex-col items-start w-full">
+                  <h2 className="text-xl font-bold">{startup.name}</h2>
+                  <h2 className="text-md">{startup.date}</h2>
+                </div>
+                {/* <span className="p-3 text-sm rounded-full bg-white/10">
+                  {startups.language}
+                </span> */}
+              </Link>
+            ))}
+          </div>
+        </div>
+        {/* Socials */}
+        <h1 className="text-sm font-bold">SOCIALS</h1>
+        <p>
+          You can follow me on{" "}
+          <Link
+            className="font-bold hover:underline"
+            href="https://github.com/fisayo-dev"
+          >
+            Github
+          </Link>
+          ,{" "}
+          <Link
+            className="font-bold hover:underline"
+            href="https://x.com/fisaycoder"
+          >
+            X(Twitter)
+          </Link>
+          , {""}
+          <Link
+            className="font-bold hover:underline"
+            href="https://instagram.com/fisayodev"
+          >
+            Instagram
+          </Link>{" "}
+          and {""}
+          <Link
+            className="font-bold hover:underline"
+            href="https://web.facebook.com/olufisayo.obadina"
+          >
+            Facebook
+          </Link>{" "}
+          .
+          <br />
+          My Email is{" "}
+          <Link
+            className="hover:underline font-bold"
+            href="mailto:olufisayobadina@gmail.com"
+          >
+            olufisayobadina@gmail.com
+          </Link>{" "}
+          & Whatsapp number:{" "}
+          <Link href="#" className="hover:underline font-bold">
+            +2340906978308.
+          </Link>
+          <br />
+        </p>
+        {/* Conclusion */}
+        <i>Bye and keep building 👋</i>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
