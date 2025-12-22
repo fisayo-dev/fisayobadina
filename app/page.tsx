@@ -86,7 +86,7 @@ const Home = () => {
     },
   ];
   return (
-    <div className="grid gap-8 bg-white dark:bg-gray-900 text-black dark:text-white">
+    <div className="grid gap-8 ">
       {/* Header: Greeting & Name Info: */}
       <div className="grid gap-3">
         <div
@@ -120,7 +120,7 @@ const Home = () => {
             of the winners of the <b>JSM mastery hackathon</b> in 2024.
           </p>
         </div>
-        <button className="bg-gray-200 dark:bg-white/10 cursor-pointer hover:bg-gray-300 dark:hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
+        <button className=" border border-white/10 hover:border-white cursor-pointer  dark:hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
           Download resume
         </button>
         {/* Projects */}
@@ -132,7 +132,7 @@ const Home = () => {
                 target="_blank"
                 href={project.link}
                 key={index}
-                className="border border-gray-200 dark:border-white/20 rounded-2xl overflow-hidden hover:bg-gray-100 dark:hover:bg-black/20 h-20 flex items-center gap-4 px-2"
+                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden  h-20 flex items-center gap-4 px-2"
               >
                 <Image
                   src={`${project.image || "./file.svg"}`}
@@ -144,7 +144,7 @@ const Home = () => {
                   <h2 className="text-xl font-bold">{project.name}</h2>
                   <h2 className="text-md ">{project.description}</h2>
                 </div>
-                <span className="p-3 text-sm rounded-full bg-gray-100 dark:bg-white/10">
+                <span className="p-3 text-sm rounded-full bg-white/10 hover:bg-white/20">
                   {project.language}
                 </span>
               </Link>
@@ -164,7 +164,7 @@ const Home = () => {
                 target="_blank"
                 href={startup.link}
                 key={index}
-                className="border border-gray-200 dark:border-white/20 rounded-2xl overflow-hidden hover:bg-gray-100 dark:hover:bg-black/20 h-20 flex items-center gap-4 px-2"
+                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden  h-20 flex items-center gap-4 px-2"
               >
                 <Image
                   src={`${startup.logo || "./file.svg"}`}
