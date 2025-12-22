@@ -119,7 +119,7 @@ const Home = () => {
             of the winners of the <b>JSM mastery hackathon</b> in 2024.
           </p>
         </div>
-        <button className=" border border-white/10 hover:border-white cursor-pointer  dark:hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
+        <button className=" border border-white/50 hover:border-white cursor-pointer  dark:hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
           Download resume
         </button>
         {/* Projects */}
