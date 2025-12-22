@@ -21,49 +21,45 @@ const Home = () => {
       link: "https://github.com/fisayo-dev/rssagg",
       name: "RSS Feed Aggregator",
       description: "A simple rss feed aggregators for blogs.",
-      image: "",
       language: "GO",
     },
     {
       link: "https://scanzie.vercel.app",
       name: "Scanzie",
       description: "An seo web anaytics platform.",
-      image: "",
+      image: "/logos/scanzie.png",
       language: "JavaScript",
     },
     {
       link: "https://bookmark-hub-lilac.vercel.app/",
       name: "Bookmark Hub",
       description: "Store your bookmark links.",
-      image: "",
       language: "Next.js",
     },
     {
       link: "https://raccvoting.vercel.app/",
       name: "Racc",
       description: "An internet voting space (JSM Hackathon).",
-      image: "",
+      image: "/logos/racc.png",
       language: "React.js",
     },
     {
       link: "https://github.com/fisayo-dev/shopping_app_api",
       name: "Shop app Api",
       description: "A basic Modern shopping app API",
-      image: "",
       language: "Node.js",
     },
     {
       link: "https://searchjob.vercel.app/",
       name: "Joblier",
       description: "A job market community.",
-      image: "",
       language: "React.js",
     },
     {
       link: "https://seekjob.vercel.app/",
       name: "Seekjob",
       description: "Job-seeking platform.",
-      image: "",
+      image: "/logos/seekjob.png",
       language: "React.js",
     },
   ];
@@ -73,16 +69,19 @@ const Home = () => {
       link: "https://thefullstackcreators.com",
       name: "The Full Stack Creators",
       date: "24th April, 2025 - Present",
+      logo: "/logos/fsc.svg",
     },
     {
       link: "https://printeaze.com",
       name: "Printeaze - Campus printing",
       date: "21st March - 1st May, 2025",
+      logo: "/logos/printeaze.png",
     },
     {
       link: "https://pickogen.online",
       name: "Pickogen - Design stock assets",
       date: "Nov - 19th Dec, 2025",
+      logo: "/logos/pickogen.png",
     },
   ];
   return (
@@ -92,7 +91,7 @@ const Home = () => {
         <div
           className="h-32 w-32 sm:h-40 sm:w-40 md:h-50 md:w-50 2xl:h-64 2xl:w-64 rounded-full overflow-hidden"
           style={{
-            backgroundImage: "url('./fisayobadina.jpg')",
+            backgroundImage: "url('/fisayobadina.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -135,7 +134,7 @@ const Home = () => {
                 className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden  h-20 flex items-center gap-4 px-2"
               >
                 <Image
-                  src={`${project.image || "./file.svg"}`}
+                  src={`${project.image ?? "/file.svg"}`}
                   alt={project.name}
                   height={58}
                   width={58}
@@ -167,7 +166,7 @@ const Home = () => {
                 className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden  h-20 flex items-center gap-4 px-2"
               >
                 <Image
-                  src={`${startup.logo || "./file.svg"}`}
+                  src={`${startup.logo ?? "/file.svg"}`}
                   alt={startup.name}
                   height={58}
                   width={58}
