@@ -119,9 +119,11 @@ const Home = () => {
             of the winners of the <b>JSM mastery hackathon</b> in 2024.
           </p>
         </div>
-        <button className=" border border-white/50 hover:border-white cursor-pointer  dark:hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
-          Download resume
-        </button>
+        <a href="/docs/resume.pdf" download>
+          <button className=" border border-white/50 hover:border-white cursor-pointer  dark:hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
+            Download resume
+          </button>
+        </a>
         {/* Projects */}
         <h1 className="text-sm font-bold">MY PROJECTS</h1>
         <div className="grid gap-3 mb-4">
@@ -177,9 +179,7 @@ const Home = () => {
                 />
                 <div className="flex flex-col items-start w-full">
                   <h2 className="lg:text-xl font-bold">{startup.name}</h2>
-                  <h2 className="text-sm lg:text-[1rem] ">
-                    {startup.date}
-                  </h2>
+                  <h2 className="text-sm lg:text-[1rem] ">{startup.date}</h2>
                 </div>
               </Link>
             ))}
