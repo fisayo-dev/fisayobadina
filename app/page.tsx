@@ -32,7 +32,7 @@ const Home = () => {
       language: "JavaScript",
     },
     {
-      link: "https://scanzie.vercel.app",
+      link: "https://bookmark-hub-lilac.vercel.app/",
       name: "Bookmark Hub",
       description: "Store your bookmark links.",
       image: "",
@@ -46,14 +46,14 @@ const Home = () => {
       language: "React.js",
     },
     {
-      link: "https://github.com/fisayo-dev",
+      link: "https://github.com/fisayo-dev/shopping_app_api",
       name: "Shop app Api",
       description: "A basic Modern shopping app API",
       image: "",
       language: "Node.js",
     },
     {
-      link: "https://joblier.vercel.app/",
+      link: "https://searchjob.vercel.app/",
       name: "Joblier",
       description: "A job market community.",
       image: "",
