@@ -191,6 +191,7 @@ const Home = () => {
           You can follow me on{" "}
           <Link
             className="font-bold hover:underline"
+            target="_blank"
             href="https://github.com/fisayo-dev"
           >
             Github
@@ -198,6 +199,7 @@ const Home = () => {
           ,{" "}
           <Link
             className="font-bold hover:underline"
+            target="_blank"
             href="https://x.com/fisaycoder"
           >
             X(Twitter)
@@ -205,6 +207,7 @@ const Home = () => {
           , {""}
           <Link
             className="font-bold hover:underline"
+            target="_blank"
             href="https://instagram.com/fisayodev"
           >
             Instagram
@@ -212,6 +215,7 @@ const Home = () => {
           and {""}
           <Link
             className="font-bold hover:underline"
+            target="_blank"
             href="https://web.facebook.com/olufisayo.obadina"
           >
             Facebook
