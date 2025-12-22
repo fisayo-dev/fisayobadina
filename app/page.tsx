@@ -135,13 +135,16 @@ const Home = () => {
               >
                 <Image
                   src={`${project.image ?? "/file.svg"}`}
+                  className="w-10 h-10 lg:w-14 lg:h-14"
                   alt={project.name}
                   height={58}
                   width={58}
                 />
                 <div className="flex flex-col items-start w-full">
-                  <h2 className="text-xl font-bold">{project.name}</h2>
-                  <h2 className="text-md ">{project.description}</h2>
+                  <h2 className="lg:text-xl font-bold">{project.name}</h2>
+                  <h2 className="text-sm lg:text-[1rem] ">
+                    {project.description}
+                  </h2>
                 </div>
                 <span className="p-3 text-sm rounded-full bg-white/10 hover:bg-white/20">
                   {project.language}
@@ -168,16 +171,16 @@ const Home = () => {
                 <Image
                   src={`${startup.logo ?? "/file.svg"}`}
                   alt={startup.name}
+                  className="w-10 h-10 lg:w-14 lg:h-14"
                   height={58}
                   width={58}
                 />
                 <div className="flex flex-col items-start w-full">
-                  <h2 className="text-xl font-bold">{startup.name}</h2>
-                  <h2 className="text-md">{startup.date}</h2>
+                  <h2 className="lg:text-xl font-bold">{startup.name}</h2>
+                  <h2 className="text-sm lg:text-[1rem] ">
+                    {startup.date}
+                  </h2>
                 </div>
-                {/* <span className="p-3 text-sm rounded-full bg-white/10">
-                  {startups.language}
-                </span> */}
               </Link>
             ))}
           </div>
