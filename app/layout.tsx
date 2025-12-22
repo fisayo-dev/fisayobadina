@@ -25,7 +25,11 @@ export const metadata: Metadata = {
     "web developer portfolio",
     "Nigeria software engineer",
   ],
-  icons: ["/fisayobadina.jpg"],
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
   authors: [{ name: "Fisayo Obadina" }],
   creator: "Fisayo Obadina",
   publisher: "Fisayo Obadina",
