@@ -18,6 +18,13 @@ interface Startups {
 const Home = () => {
   const projects: Projects[] = [
     {
+      link: "https://loanparser.vercel.app",
+      name: "Loan parser",
+      description: "Scans loan documents with AI & parses them into JSON/CSV.",
+      image: "/logos/loanparser.png",
+      language: "GO & Typescript",
+    },
+    {
       link: "https://github.com/fisayo-dev/rssagg",
       name: "RSS Feed Aggregator",
       description: "A simple rss feed aggregators for blogs.",
@@ -145,7 +152,7 @@ const Home = () => {
                 <div className="flex flex-col items-start w-full">
                   <h2 className="lg:text-xl font-bold">{project.name}</h2>
                   <h2 className="text-sm lg:text-[1rem] ">
-                    {project.description}
+                    {project.description.length > 100 ? `${project.description.slice(0, 17)}...` : project.description}
                   </h2>
                 </div>
                 <span className="p-3 text-sm rounded-full bg-white/10 hover:bg-white/20">
