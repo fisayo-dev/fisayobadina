@@ -83,7 +83,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${spaceGrotesk.variable} antialiased`}>
-        <div className="max-w-4xl mx-auto px-5 lg:px-20 py-20"> {children}</div>
+        <div className="max-w-3xl mx-auto px-5 lg:px-20 py-20"> {children}</div>
         <Analytics />
       </body>
     </html>
