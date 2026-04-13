@@ -207,6 +207,14 @@ const Home = () => {
           <Link
             className="font-bold hover:underline"
             target="_blank"
+            href="https://linkedin.com/in/fisayobadina"
+          >
+            LinkedIn
+          </Link>
+          ,{" "}
+          <Link
+            className="font-bold hover:underline"
+            target="_blank"
             href="https://x.com/fisaycoder"
           >
             X(Twitter)
