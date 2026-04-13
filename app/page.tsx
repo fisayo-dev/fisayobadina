@@ -140,6 +140,15 @@ const Home = () => {
             I have also participated in a couple hackathons and emerged as one
             of the winners of the <b>JSM mastery hackathon</b> in 2024.
           </p>
+          <p>
+            View my{" "}
+            <Link
+              className="font-bold hover:underline"
+              href="https://github.com/fisayo-dev"
+            >
+              Github.
+            </Link>
+          </p>
         </div>
         <a href="/docs/resume.pdf" download>
           <button className=" border border-white/50 hover:border-white cursor-pointer  dark:hover:bg-white/20 mb-4 rounded-full p-4 max-w-48">
@@ -155,7 +164,7 @@ const Home = () => {
                 target="_blank"
                 href={project.link}
                 key={index}
-                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden h-24 flex items-center gap-4 px-4"
+                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden min-h-24 flex items-center gap-4 px-4 py-4"
               >
                 <Image
                   src={`${project.image ?? "/file.svg"}`}
@@ -192,7 +201,7 @@ const Home = () => {
                 target="_blank"
                 href={startup.link}
                 key={index}
-                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden h-24 flex items-center gap-4 px-4"
+                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden min-h-24 flex items-center gap-4 px-4 py-4"
               >
                 <Image
                   src={`${startup.logo ?? "/file.svg"}`}
