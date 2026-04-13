@@ -18,6 +18,20 @@ interface Startups {
 const Home = () => {
   const projects: Projects[] = [
     {
+      link: "https://medictranslate-enyata.vercel.app/",
+      name: "Medic Translate",
+      description:
+        "An AI-powered tool for interpreting medical lab results. Built for Interswitch X Enyata Hackathon",
+      language: "Typescript & Python",
+    },
+    {
+      link: "https://scanzie.vercel.app",
+      name: "Scanzie",
+      description: "An seo web anaytics platform.",
+      image: "/logos/scanzie.png",
+      language: "Typescript",
+    },
+    {
       link: "https://loanparser.vercel.app",
       name: "Loan parser",
       description: "Scans loan documents with AI & parses them into JSON/CSV.",
@@ -31,11 +45,11 @@ const Home = () => {
       language: "GO",
     },
     {
-      link: "https://scanzie.vercel.app",
-      name: "Scanzie",
-      description: "An seo web anaytics platform.",
-      image: "/logos/scanzie.png",
-      language: "JavaScript",
+      link: "https://raccvoting.vercel.app/",
+      name: "Simple Node.js API",
+      description:
+        "As simple node.js API for an internship at Codveda Technologies.",
+      language: "Node.js",
     },
     {
       link: "https://bookmark-hub-lilac.vercel.app/",
@@ -50,6 +64,7 @@ const Home = () => {
       image: "/logos/racc.png",
       language: "React.js",
     },
+
     {
       link: "https://github.com/fisayo-dev/shopping_app_api",
       name: "Shop app Api",
@@ -107,7 +122,7 @@ const Home = () => {
       {/* Whole body */}
       <div className="grid gap-3">
         {/* Intro */}
-        <h1 className="text-sm font-bold">WHO AM I?</h1>
+        <h1 className="text-sm font-bold">HELLO 👋</h1>
         <div className="grid gap-3 mb-4">
           <p className="">
             My name is Fisayo Obadina, I&apos;m a Software Engineer with 6+
@@ -140,7 +155,7 @@ const Home = () => {
                 target="_blank"
                 href={project.link}
                 key={index}
-                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden  h-20 flex items-center gap-4 px-2"
+                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden h-24 flex items-center gap-4 px-4"
               >
                 <Image
                   src={`${project.image ?? "/file.svg"}`}
@@ -151,8 +166,10 @@ const Home = () => {
                 />
                 <div className="flex flex-col items-start w-full">
                   <h2 className="lg:text-xl font-bold">{project.name}</h2>
-                  <h2 className="text-sm lg:text-[1rem] ">
-                    {project.description.length > 100 ? `${project.description.slice(0, 17)}...` : project.description}
+                  <h2 className="text-sm 2xl:text-[1rem]">
+                    {project.description.length > 100
+                      ? `${project.description.slice(0, 17)}...`
+                      : project.description}
                   </h2>
                 </div>
                 <span className="p-3 text-sm rounded-full bg-white/10 hover:bg-white/20">
@@ -175,7 +192,7 @@ const Home = () => {
                 target="_blank"
                 href={startup.link}
                 key={index}
-                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden  h-20 flex items-center gap-4 px-2"
+                className="border border-white/10 hover:border-white/30 rounded-2xl overflow-hidden h-24 flex items-center gap-4 px-4"
               >
                 <Image
                   src={`${startup.logo ?? "/file.svg"}`}
@@ -186,7 +203,7 @@ const Home = () => {
                 />
                 <div className="flex flex-col items-start w-full">
                   <h2 className="lg:text-xl font-bold">{startup.name}</h2>
-                  <h2 className="text-sm lg:text-[1rem] ">{startup.date}</h2>
+                  <h2 className="text-sm 2xl:text-[1rem]">{startup.date}</h2>
                 </div>
               </Link>
             ))}
