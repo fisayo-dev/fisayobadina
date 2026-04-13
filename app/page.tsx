@@ -143,6 +143,7 @@ const Home = () => {
           <p>
             View my{" "}
             <Link
+              target="_blank"
               className="font-bold hover:underline"
               href="https://github.com/fisayo-dev"
             >
