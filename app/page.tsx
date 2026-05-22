@@ -18,6 +18,13 @@ interface Startups {
 const Home = () => {
   const projects: Projects[] = [
     {
+      link: "https://verifyng-three.vercel.app/",
+      name: "VerifyNG - Squad Hackathon",
+      description:
+        "AI-powered platform for verifying academic certificates; detect fraud and deep fakes.",
+      language: "Next.js & Python",
+    },
+    {
       link: "https://medictranslate-enyata.vercel.app/",
       name: "Medic Translate",
       description:
@@ -137,7 +144,7 @@ const Home = () => {
             <b>C++</b>.
           </p>
           <p>
-            I have also participated in a couple hackathons and emerged as one
+            I have also participated in a couple hackathons like <b>Squad Hackathon</b>, <b>Interswitch Hackathon</b>, etc; and emerged as one
             of the winners of the <b>JSM mastery hackathon</b> in 2024.
           </p>
           <p>
