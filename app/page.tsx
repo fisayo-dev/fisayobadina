@@ -146,7 +146,6 @@ const Home = () => {
       {/* Whole body */}
       <div className="grid gap-3">
         {/* Intro */}
-        <h1 className="text-sm font-bold">HELLO 👋</h1>
         <div className="grid gap-3 mb-4">
           <p className="">
             My name is Fisayo Obadina, I&apos;m a Software Engineer with 6+
