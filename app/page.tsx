@@ -18,6 +18,30 @@ interface Startups {
 const Home = () => {
   const projects: Projects[] = [
     {
+      link: "https://creativia-eight.vercel.app/",
+      name: "Creativia",
+      description:
+        "A remotes associate test game; built to test user's brain creativity.",
+      language: "Next.js & Typescript",
+       image: "/logos/creativia.png",
+    },
+    {
+      link: "https://surausers.vercel.app/",
+      name: "Sura (PWA for Users) - Ecobank Hackathon",
+      description:
+        "A credit-scoring system tracks user's spending behaviour and boost their credit score for loans.",
+      language: "Next.js & Python",
+       image: "/logos/sura.png",
+    },
+    {
+      link: "https://sura-seven.vercel.app/",
+      name: "Sura (For Banks) - Ecobank Hackathon",
+      description:
+        "A credit-scoring API that banks (Ecobank) can integrate into their app and effectively evaluate a user's credit score based on spending activities.",
+      language: "Next.js & Python",
+       image: "/logos/sura.png",
+    },
+    {
       link: "https://verifyng-three.vercel.app/",
       name: "VerifyNG - Squad Hackathon",
       description:
@@ -50,13 +74,6 @@ const Home = () => {
       name: "RSS Feed Aggregator",
       description: "A simple rss feed aggregators for blogs.",
       language: "GO",
-    },
-    {
-      link: "https://raccvoting.vercel.app/",
-      name: "Simple Node.js API",
-      description:
-        "As simple node.js API for an internship at Codveda Technologies.",
-      language: "Node.js",
     },
     {
       link: "https://bookmark-hub-lilac.vercel.app/",
