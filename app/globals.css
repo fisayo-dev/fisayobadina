@@ -46,7 +46,7 @@ a { color: inherit; text-decoration: none; }
 
 /* Hero */
 .hero { padding: clamp(48px, 10vw, 96px) 0 clamp(48px, 8vw, 80px); border-bottom: 1px solid var(--line); }
-.portrait-wrap { position: relative; width: clamp(72px, 12vw, 96px); height: clamp(72px, 12vw, 96px); overflow: hidden; border-radius: 50%; background: var(--soft); border: 1px solid var(--line); filter: grayscale(1); }
+.portrait-wrap { position: relative; width: clamp(72px, 12vw, 96px); height: clamp(72px, 12vw, 96px); overflow: hidden; border-radius: 50%; background: var(--soft); border: 1px solid var(--line); }
 .portrait { object-fit: cover; }
 .eyebrow { display: inline-flex; align-items: center; gap: 6px; margin: clamp(24px, 4vw, 32px) 0 16px; color: var(--muted); font-size: 13px; }
 .hero h1 { margin: 0; font-size: clamp(2.5rem, 9vw, 4.75rem); font-weight: 500; letter-spacing: -0.06em; line-height: 1; }
