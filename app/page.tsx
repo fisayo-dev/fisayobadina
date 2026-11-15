@@ -1,35 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowUpRight01Icon,
-  Download01Icon,
-  Facebook02Icon,
-  Github01Icon,
-  InstagramIcon,
-  Linkedin01Icon,
-  Location01Icon,
-  Mail01Icon,
-  NewTwitterIcon,
-  WhatsappIcon,
-} from "@hugeicons/core-free-icons";
-import type { IconSvgElement } from "@hugeicons/react";
+import { ArrowUpRight01Icon, Download01Icon, Location01Icon, Mail01Icon } from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
+import { BrandIcon } from "@/components/brand-icon";
 import { Favicon } from "@/components/favicon";
 import { Icon } from "@/components/icon";
 import { JsonLd } from "@/components/json-ld";
 import { Section } from "@/components/section";
+import { StackIcons } from "@/components/stack";
+import { social } from "@/lib/brands";
 import { builds, hostOf, products, projects, type Project } from "@/lib/projects";
 import { getSiteMeta, type SiteMeta } from "@/lib/site-meta";
 import { experience, site, socials } from "@/lib/site";
-
-const socialIcons: Record<string, IconSvgElement> = {
-  GitHub: Github01Icon,
-  LinkedIn: Linkedin01Icon,
-  X: NewTwitterIcon,
-  Instagram: InstagramIcon,
-  Facebook: Facebook02Icon,
-  WhatsApp: WhatsappIcon,
-};
 
 export default async function Home() {
   const [metas, experienceMetas] = await Promise.all([
@@ -55,7 +37,7 @@ export default async function Home() {
               email: `mailto:${site.email}`,
               address: { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
               alumniOf: { "@type": "CollegeOrUniversity", name: "Covenant University" },
-              knowsAbout: ["TypeScript", "JavaScript", "Go", "Next.js", "React", "SQL"],
+              knowsAbout: ["TypeScript", "JavaScript", "Go", "Next.js", "React", "Node.js", "SQL"],
               sameAs: socials.filter((s) => s.name !== "WhatsApp").map((s) => s.href),
             },
             {
@@ -102,11 +84,17 @@ export default async function Home() {
         <h1 className="mt-8 max-w-3xl text-[38px] font-[350] leading-[1.04] tracking-[-0.045em] text-balance sm:mt-10 sm:text-[60px]">
           Software engineer building <span className="text-brand">useful products</span> for the web.
         </h1>
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-t3 sm:text-[17px]">
-          I’m a full-stack engineer with 6+ years of experience and a student at Covenant University. I work mostly in
-          TypeScript and Go, ship products like Valent and Scanzie, and build at hackathons. I won the JSM Mastery
-          Hackathon in 2024.
-        </p>
+        <div className="mt-5 max-w-2xl space-y-3 text-base leading-relaxed text-t3 sm:text-[17px]">
+          <p>
+            I’m a full-stack engineer with 6+ years of experience, working mostly in TypeScript and Go. I’m studying at
+            Covenant University, I ship products like Valent and Scanzie, and I won the JSM Mastery Hackathon in 2024.
+          </p>
+          <p>
+            In 2026 I interned at <span className="text-foreground">GTCO</span>, researching offline payments over
+            Bluetooth, and at <span className="text-foreground">SQUAD</span>, where I built the backend of an AI tool
+            that automates customer support calls.
+          </p>
+        </div>
 
         <div className="mt-8 flex flex-col gap-2.5 sm:flex-row">
           <Button asChild size="lg">
@@ -122,50 +110,10 @@ export default async function Home() {
             </a>
           </Button>
         </div>
-
-        <dl className="mt-12 grid grid-cols-3 overflow-hidden rounded-xl border border-line bg-panel sm:max-w-xl">
-          {[
-            ["6+", "years building"],
-            [String(products.length), "products"],
-            [String(builds.length), "projects"],
-          ].map(([value, label]) => (
-            <div key={label} className="border-l border-line px-4 py-3.5 first:border-l-0">
-              <dt className="sr-only">{label}</dt>
-              <dd className="text-xl font-[450] tabular-nums tracking-[-0.03em]">{value}</dd>
-              <dd className="text-[13px] text-t3">{label}</dd>
-            </div>
-          ))}
-        </dl>
       </div>
 
-      {/* Products */}
-      <Section id="products" title="Products" intro="Products I run and keep improving.">
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {products.map((p) => (
-            <li key={p.slug}>
-              <ProductCard project={p} meta={metaBySlug[p.slug]} />
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      {/* Projects */}
-      <Section
-        id="projects"
-        title="Projects"
-        intro="Hackathon builds and experiments, from credit scoring to AI evaluation."
-      >
-        <ul className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-panel">
-          {builds.map((p) => (
-            <li key={p.slug} className="border-t border-line first:border-t-0">
-              <ProjectRow project={p} meta={metaBySlug[p.slug]} />
-            </li>
-          ))}
-        </ul>
-      </Section>
-
       {/* Experience */}
-      <Section id="experience" title="Experience" intro="Fintech internships building payment and AI support systems.">
+      <Section id="experience" title="Experience">
         <ul className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-panel">
           {experience.map((e, i) => (
             <li
@@ -190,7 +138,10 @@ export default async function Home() {
                 <p className="text-[13px] text-t4">{e.location}</p>
                 <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-t3">
                   {e.points.map((point) => (
-                    <li key={point} className="relative pl-4 before:absolute before:left-0 before:top-[0.6em] before:h-px before:w-2 before:bg-t4">
+                    <li
+                      key={point}
+                      className="relative pl-4 before:absolute before:left-0 before:top-[0.65em] before:h-px before:w-2 before:bg-t4"
+                    >
                       {point}
                     </li>
                   ))}
@@ -201,8 +152,30 @@ export default async function Home() {
         </ul>
       </Section>
 
+      {/* Products */}
+      <Section id="products" title="Products">
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {products.map((p) => (
+            <li key={p.slug}>
+              <ProductCard project={p} meta={metaBySlug[p.slug]} />
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {/* Projects */}
+      <Section id="projects" title="Projects">
+        <ul className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-panel">
+          {builds.map((p) => (
+            <li key={p.slug} className="border-t border-line first:border-t-0">
+              <ProjectRow project={p} meta={metaBySlug[p.slug]} />
+            </li>
+          ))}
+        </ul>
+      </Section>
+
       {/* Contact */}
-      <Section id="contact" title="Get in touch" intro="Say hello, follow along, or ask about a project.">
+      <Section id="contact" title="Get in touch">
         <a
           href={`mailto:${site.email}`}
           className="group flex items-center gap-4 rounded-[var(--radius-card)] border border-line bg-panel p-4 transition-colors hover:border-line-strong sm:p-5"
@@ -226,13 +199,14 @@ export default async function Home() {
                 rel="noreferrer me"
                 className="group flex items-center gap-3 rounded-xl border border-line bg-panel p-3 transition-colors hover:border-line-strong"
               >
-                <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-line text-t2">
-                  <Icon icon={socialIcons[s.name]} size={17} />
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-line bg-background text-foreground">
+                  <BrandIcon brand={social[s.name as keyof typeof social]} size={17} />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-sm font-medium">{s.name}</span>
                   <span className="block truncate text-xs text-t3">{s.handle}</span>
                 </span>
+                <Arrow className="hidden sm:block" />
               </a>
             </li>
           ))}
@@ -247,7 +221,7 @@ function Arrow({ className = "" }: { className?: string }) {
     <span
       className={`text-t4 transition-[color,transform] duration-200 ease-out-soft group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground ${className}`}
     >
-      <Icon icon={ArrowUpRight01Icon} size={18} />
+      <Icon icon={ArrowUpRight01Icon} size={16} />
     </span>
   );
 }
@@ -265,7 +239,7 @@ function ProductCard({ project: p, meta }: { project: Project; meta: SiteMeta })
       <h3 className="mt-5 text-lg font-medium tracking-[-0.03em]">{p.name}</h3>
       <p className="mt-0.5 font-mono text-xs text-t4">{hostOf(p.url)}</p>
       <p className="mt-3 text-[15px] leading-relaxed text-t3">{p.summary}</p>
-      {p.stack && <p className="mt-auto pt-5 text-[13px] text-t4">{p.stack.join(" · ")}</p>}
+      <StackIcons stack={p.stack} className="mt-auto pt-5" />
     </Link>
   );
 }
@@ -274,7 +248,7 @@ function ProjectRow({ project: p, meta }: { project: Project; meta: SiteMeta }) 
   return (
     <Link
       href={`/work/${p.slug}`}
-      className="group grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 px-4 py-4 transition-colors hover:bg-foreground/[0.025] sm:px-5 md:grid-cols-[auto_minmax(0,1fr)_13rem_auto]"
+      className="group grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4 px-4 py-4 transition-colors hover:bg-foreground/[0.025] sm:px-5 md:grid-cols-[auto_minmax(0,1fr)_14rem_auto] md:items-center"
     >
       <Favicon src={meta.favicon} logo={p.logo} icon={p.icon} size="sm" />
       <span className="min-w-0">
@@ -283,11 +257,16 @@ function ProjectRow({ project: p, meta }: { project: Project; meta: SiteMeta }) 
           <span className="hidden truncate font-mono text-xs text-t4 sm:inline">{hostOf(p.url)}</span>
         </span>
         <span className="mt-0.5 block text-sm leading-snug text-t3">{p.summary}</span>
-        {p.event && <span className="mt-1 block text-[13px] text-t4 md:hidden">{p.event}</span>}
+        <span className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 md:hidden">
+          <StackIcons stack={p.stack} />
+          {p.event && <span className="text-[13px] text-t4">{p.event}</span>}
+        </span>
       </span>
-      <span className="hidden text-right text-[13px] text-t3 md:block">{p.event}</span>
-      <Arrow />
+      <span className="hidden flex-col items-end gap-2 md:flex">
+        <StackIcons stack={p.stack} className="justify-end" />
+        {p.event && <span className="text-right text-[13px] text-t3">{p.event}</span>}
+      </span>
+      <Arrow className="self-start md:self-center" />
     </Link>
   );
 }
-

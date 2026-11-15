@@ -1,12 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft01Icon, ArrowRight01Icon, ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+import type { IconSvgElement } from "@hugeicons/react";
+import {
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  ArrowUpRight01Icon,
+  Award01Icon,
+  Clock01Icon,
+  Folder01Icon,
+  GitForkIcon,
+  Globe02Icon,
+  StarIcon,
+  UserIcon,
+} from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
+import { BrandIcon } from "@/components/brand-icon";
 import { Favicon } from "@/components/favicon";
 import { Icon } from "@/components/icon";
 import { JsonLd } from "@/components/json-ld";
-import { getProject, hostOf, projects } from "@/lib/projects";
+import { StackGrid } from "@/components/stack";
+import { github } from "@/lib/brands";
+import { getRepo } from "@/lib/github";
+import { getProject, hostOf, isRepoOnly, projects } from "@/lib/projects";
 import { getSiteMeta } from "@/lib/site-meta";
 import { site } from "@/lib/site";
 
@@ -35,22 +51,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const dateFmt = new Intl.DateTimeFormat("en", { month: "short", year: "numeric" });
+
 export default async function WorkPage({ params }: Props) {
   const project = getProject((await params).slug);
   if (!project) notFound();
 
-  const meta = await getSiteMeta(project.url);
-  const index = projects.indexOf(project);
-  const next = projects[(index + 1) % projects.length];
+  const [meta, repo] = await Promise.all([
+    getSiteMeta(project.url),
+    project.repo ? getRepo(project.repo) : Promise.resolve(undefined),
+  ]);
+  const next = projects[(projects.indexOf(project) + 1) % projects.length];
+  const repoOnly = isRepoOnly(project);
   const host = hostOf(project.url);
+  const repoUrl = repo?.url ?? (project.repo ? `https://github.com/${project.repo}` : undefined);
   const kind = project.kind === "product" ? "Product" : project.event ? "Hackathon project" : "Project";
 
-  const facts = [
-    ["Type", kind],
-    ["Built for", project.event],
-    ["Stack", project.stack?.join(", ")],
-    ["Website", host],
-  ].filter((f): f is [string, string] => Boolean(f[1]));
+  const details: { icon: IconSvgElement | "github"; label: string; value: string; href?: string }[] = [
+    { icon: Folder01Icon, label: "Type", value: kind },
+    ...(project.event ? [{ icon: Award01Icon, label: "Built for", value: project.event }] : []),
+    ...(project.role ? [{ icon: UserIcon, label: "My role", value: project.role }] : []),
+    ...(!repoOnly ? [{ icon: Globe02Icon, label: "Website", value: host, href: project.url }] : []),
+    ...(project.repo && repoUrl ? [{ icon: "github" as const, label: "Repository", value: project.repo, href: repoUrl }] : []),
+    ...(repo ? [{ icon: Clock01Icon, label: "Last updated", value: dateFmt.format(new Date(repo.pushedAt)) }] : []),
+  ];
 
   return (
     <article className="mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
@@ -59,11 +83,13 @@ export default async function WorkPage({ params }: Props) {
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": project.url.includes("github.com") ? "SoftwareSourceCode" : "WebApplication",
+              "@type": repoOnly ? "SoftwareSourceCode" : "WebApplication",
               name: project.name,
               url: project.url,
-              description: project.summary,
-              ...(project.url.includes("github.com") ? {} : { applicationCategory: "BusinessApplication", operatingSystem: "Web" }),
+              description: project.description,
+              ...(repoUrl ? { codeRepository: repoUrl } : {}),
+              ...(repo?.languages.length ? { programmingLanguage: repo.languages.map((l) => l.name) } : {}),
+              ...(repoOnly ? {} : { applicationCategory: "BusinessApplication", operatingSystem: "Web" }),
               ...(meta.ogImage ? { image: meta.ogImage } : {}),
               author: { "@type": "Person", "@id": `${site.url}/#person`, name: site.name, url: site.url },
             },
@@ -71,7 +97,12 @@ export default async function WorkPage({ params }: Props) {
               "@type": "BreadcrumbList",
               itemListElement: [
                 { "@type": "ListItem", position: 1, name: site.name, item: site.url },
-                { "@type": "ListItem", position: 2, name: project.kind === "product" ? "Products" : "Projects", item: `${site.url}/#${project.kind}s` },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: project.kind === "product" ? "Products" : "Projects",
+                  item: `${site.url}/#${project.kind}s`,
+                },
                 { "@type": "ListItem", position: 3, name: project.name, item: `${site.url}/work/${project.slug}` },
               ],
             },
@@ -89,78 +120,193 @@ export default async function WorkPage({ params }: Props) {
         </Link>
       </nav>
 
-      <header className="mt-8 flex flex-col gap-6 sm:mt-10 sm:flex-row sm:items-end sm:justify-between">
-        <div>
+      {/* Header */}
+      <header className="mt-8 sm:mt-10">
+        <div className="flex items-center gap-4">
           <Favicon src={meta.favicon} logo={project.logo} icon={project.icon} size="lg" />
-          <p className="mt-6 text-sm text-t3">{kind}</p>
-          <h1 className="mt-1 text-[38px] font-[350] leading-[1.05] tracking-[-0.045em] sm:text-[56px]">{project.name}</h1>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-t3 sm:text-[17px]">{project.summary}</p>
+          <div className="min-w-0">
+            <p className="text-sm text-t3">{kind}</p>
+            <p className="truncate font-mono text-xs text-t4">{repoOnly ? project.repo : host}</p>
+          </div>
         </div>
-        <Button asChild size="lg" className="w-full sm:w-auto">
-          <a href={project.url} target="_blank" rel="noreferrer">
-            Visit {host}
-            <Icon icon={ArrowUpRight01Icon} />
-          </a>
-        </Button>
+        <h1 className="mt-6 text-[40px] font-[350] leading-[1.05] tracking-[-0.045em] sm:text-[56px]">{project.name}</h1>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-t3 sm:text-lg">{project.summary}</p>
+        <div className="mt-7 flex flex-col gap-2.5 sm:flex-row">
+          {!repoOnly && (
+            <Button asChild size="lg">
+              <a href={project.url} target="_blank" rel="noreferrer">
+                Visit {host}
+                <Icon icon={ArrowUpRight01Icon} />
+              </a>
+            </Button>
+          )}
+          {repoUrl && (
+            <Button asChild size="lg" variant={repoOnly ? "default" : "outline"}>
+              <a href={repoUrl} target="_blank" rel="noreferrer">
+                <BrandIcon brand={github} size={16} />
+                View on GitHub
+              </a>
+            </Button>
+          )}
+        </div>
       </header>
 
-      {/* 1px gaps over a line-coloured background draw the inner rules. */}
-      <dl className="mt-10 flex flex-wrap gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line">
-        {facts.map(([label, value]) => (
-          <div key={label} className="min-w-0 flex-1 basis-[calc(50%-1px)] bg-panel px-4 py-4 md:basis-0">
-            <dt className="text-[13px] text-t4">{label}</dt>
-            <dd className="mt-1 break-words text-sm font-medium">{value}</dd>
-          </div>
-        ))}
-      </dl>
-
-      {(meta.title || meta.description || meta.ogImage) && (
-        <section aria-labelledby="seo-title" className="mt-14">
-          <h2 id="seo-title" className="text-xl font-[450] tracking-[-0.03em]">How it shows up online</h2>
-          <p className="mt-1 text-sm text-t3">Pulled from the live site’s public metadata.</p>
-
-          <div className={`mt-5 grid gap-3 ${meta.ogImage ? "lg:grid-cols-2" : ""}`}>
-            {/* Search result preview */}
-            <div className="rounded-[var(--radius-card)] border border-line bg-panel p-5">
-              <p className="text-[13px] text-t4">Search result</p>
-              <div className="mt-4 flex items-center gap-2.5">
-                <Favicon src={meta.favicon} logo={project.logo} icon={project.icon} size="sm" className="size-7 rounded-full" />
-                <div className="min-w-0 leading-tight">
-                  <p className="truncate text-sm">{project.name}</p>
-                  <p className="truncate text-xs text-t3">{project.url.replace(/\/$/, "")}</p>
-                </div>
-              </div>
-              {meta.title && <p className="mt-2.5 text-lg leading-snug text-brand">{meta.title}</p>}
-              {meta.description && <p className="mt-1 line-clamp-3 text-sm leading-relaxed text-t3">{meta.description}</p>}
-            </div>
-
-            {/* Social card preview */}
-            {meta.ogImage && (
-              <div className="rounded-[var(--radius-card)] border border-line bg-panel p-5">
-                <p className="text-[13px] text-t4">Social card</p>
-                <div className="mt-4 overflow-hidden rounded-xl border border-line">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- remote OG images from arbitrary hosts */}
-                  <img
-                    src={meta.ogImage}
-                    alt={`Social preview image for ${project.name}`}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    className="aspect-[1.91/1] w-full bg-panel-raised object-cover"
-                  />
-                  <div className="border-t border-line px-3.5 py-3">
-                    <p className="text-xs text-t4">{host}</p>
-                    <p className="mt-0.5 truncate text-sm font-medium">{meta.title ?? project.name}</p>
-                  </div>
-                </div>
-              </div>
+      <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-12">
+        {/* Main column */}
+        <div className="min-w-0 space-y-12">
+          <section aria-labelledby="about">
+            <h2 id="about" className="text-xl font-[450] tracking-[-0.03em]">About</h2>
+            <p className="mt-3 text-[15px] leading-relaxed text-t2 sm:text-base">{project.description}</p>
+            {project.highlights && (
+              <ul className="mt-5 space-y-2.5">
+                {project.highlights.map((h) => (
+                  <li key={h} className="flex gap-3 text-[15px] leading-relaxed text-t3">
+                    <span aria-hidden="true" className="mt-[0.7em] h-px w-3 shrink-0 bg-brand" />
+                    {h}
+                  </li>
+                ))}
+              </ul>
             )}
-          </div>
-        </section>
-      )}
+          </section>
+
+          {project.stack.length > 0 && (
+            <section aria-labelledby="stack">
+              <h2 id="stack" className="text-xl font-[450] tracking-[-0.03em]">Tech stack</h2>
+              <div className="mt-4">
+                <StackGrid stack={project.stack} />
+              </div>
+            </section>
+          )}
+
+          {project.repo && repoUrl && (
+            <section aria-labelledby="source">
+              <h2 id="source" className="text-xl font-[450] tracking-[-0.03em]">Source code</h2>
+              <a
+                href={repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group mt-4 block rounded-[var(--radius-card)] border border-line bg-panel p-5 transition-colors hover:border-line-strong"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-line bg-background text-foreground">
+                    <BrandIcon brand={github} size={18} />
+                  </span>
+                  <span className="min-w-0 flex-1 truncate font-mono text-sm">{repo?.fullName ?? project.repo}</span>
+                  <span className="text-t4 transition-[color,transform] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground">
+                    <Icon icon={ArrowUpRight01Icon} size={16} />
+                  </span>
+                </div>
+                {repo?.description && <p className="mt-3 text-sm leading-relaxed text-t3">{repo.description}</p>}
+
+                {repo && repo.languages.length > 0 && (
+                  <div className="mt-5">
+                    <div className="flex h-1.5 gap-0.5 overflow-hidden rounded-full">
+                      {repo.languages.map((l) => (
+                        <span key={l.name} className="h-full bg-foreground" style={{ width: `${l.percent}%`, opacity: langOpacity(l.name, repo.languages) }} />
+                      ))}
+                    </div>
+                    <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-t3">
+                      {repo.languages.map((l) => (
+                        <li key={l.name} className="flex items-center gap-1.5">
+                          <span
+                            aria-hidden="true"
+                            className="size-2 rounded-full bg-foreground"
+                            style={{ opacity: langOpacity(l.name, repo.languages) }}
+                          />
+                          {l.name} <span className="tabular-nums text-t4">{l.percent}%</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {repo && (
+                  <div className="mt-4 flex gap-4 border-t border-line pt-4 text-[13px] text-t3">
+                    <span className="flex items-center gap-1.5">
+                      <Icon icon={StarIcon} size={14} />
+                      {plural(repo.stars, "star")}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Icon icon={GitForkIcon} size={14} />
+                      {plural(repo.forks, "fork")}
+                    </span>
+                  </div>
+                )}
+              </a>
+            </section>
+          )}
+
+          {!repoOnly && (meta.title || meta.description) && (
+            <section aria-labelledby="online">
+              <h2 id="online" className="text-xl font-[450] tracking-[-0.03em]">How it shows up online</h2>
+              <div className={`mt-4 grid gap-3 ${meta.ogImage ? "md:grid-cols-2" : ""}`}>
+                <div className="rounded-[var(--radius-card)] border border-line bg-panel p-5">
+                  <p className="text-[13px] text-t4">Search result</p>
+                  <div className="mt-4 flex items-center gap-2.5">
+                    <Favicon src={meta.favicon} logo={project.logo} icon={project.icon} size="sm" className="size-7 rounded-full" />
+                    <div className="min-w-0 leading-tight">
+                      <p className="truncate text-sm">{project.name}</p>
+                      <p className="truncate text-xs text-t3">{project.url.replace(/\/$/, "")}</p>
+                    </div>
+                  </div>
+                  {meta.title && <p className="mt-2.5 text-lg leading-snug text-brand">{meta.title}</p>}
+                  {meta.description && <p className="mt-1 line-clamp-3 text-sm leading-relaxed text-t3">{meta.description}</p>}
+                </div>
+
+                {meta.ogImage && (
+                  <div className="rounded-[var(--radius-card)] border border-line bg-panel p-5">
+                    <p className="text-[13px] text-t4">Social card</p>
+                    <div className="mt-4 overflow-hidden rounded-xl border border-line">
+                      {/* eslint-disable-next-line @next/next/no-img-element -- remote OG images from arbitrary hosts */}
+                      <img
+                        src={meta.ogImage}
+                        alt={`Social preview image for ${project.name}`}
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        className="aspect-[1.91/1] w-full bg-panel-raised object-cover"
+                      />
+                      <div className="border-t border-line px-3.5 py-3">
+                        <p className="text-xs text-t4">{host}</p>
+                        <p className="mt-0.5 truncate text-sm font-medium">{meta.title ?? project.name}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+        </div>
+
+        {/* Details sidebar */}
+        <aside aria-labelledby="details" className="lg:sticky lg:top-20 lg:self-start">
+          <h2 id="details" className="sr-only">Details</h2>
+          <dl className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-panel">
+            {details.map((d) => (
+              <div key={d.label} className="flex items-center gap-3 border-t border-line px-4 py-3.5 first:border-t-0">
+                <span className="grid size-8 shrink-0 place-items-center rounded-lg border border-line bg-background text-t2">
+                  {d.icon === "github" ? <BrandIcon brand={github} size={15} /> : <Icon icon={d.icon} size={15} />}
+                </span>
+                <div className="min-w-0">
+                  <dt className="text-xs text-t4">{d.label}</dt>
+                  <dd className="truncate text-sm font-medium">
+                    {d.href ? (
+                      <a href={d.href} target="_blank" rel="noreferrer" className="hover:text-brand">
+                        {d.value}
+                      </a>
+                    ) : (
+                      d.value
+                    )}
+                  </dd>
+                </div>
+              </div>
+            ))}
+          </dl>
+        </aside>
+      </div>
 
       <Link
         href={`/work/${next.slug}`}
-        className="group mt-14 flex items-center gap-4 rounded-[var(--radius-card)] border border-line bg-panel p-4 transition-colors hover:border-line-strong sm:p-5"
+        className="group mt-16 flex items-center gap-4 rounded-[var(--radius-card)] border border-line bg-panel p-4 transition-colors hover:border-line-strong sm:p-5"
       >
         <span className="min-w-0 flex-1">
           <span className="block text-[13px] text-t4">Next</span>
@@ -172,4 +318,14 @@ export default async function WorkPage({ params }: Props) {
       </Link>
     </article>
   );
+}
+
+/** Shades languages from solid to faint, largest first, keeping the bar monochrome. */
+function langOpacity(name: string, languages: { name: string }[]) {
+  const i = languages.findIndex((l) => l.name === name);
+  return [1, 0.6, 0.38, 0.24, 0.14][i] ?? 0.1;
+}
+
+function plural(n: number, word: string) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
 }

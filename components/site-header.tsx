@@ -6,9 +6,9 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { site } from "@/lib/site";
 
 const links = [
+  { href: "/#experience", label: "Experience" },
   { href: "/#products", label: "Products" },
   { href: "/#projects", label: "Projects" },
-  { href: "/#experience", label: "Experience" },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -16,10 +16,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-5xl items-center gap-2 px-4 sm:px-6">
-        <Link href="/" className="mr-auto flex items-center gap-2.5 text-[15px] font-medium tracking-[-0.02em]">
-          <span className="grid size-7 place-items-center rounded-lg bg-brand text-[13px] font-semibold text-brand-ink">
-            F
-          </span>
+        <Link href="/" className="mr-auto text-[15px] font-medium tracking-[-0.02em]">
           {site.name}
         </Link>
 

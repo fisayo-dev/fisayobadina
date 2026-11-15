@@ -34,21 +34,7 @@ export async function renderOg({ eyebrow, title, footer }: { eyebrow: string; ti
             background: "#ffffff",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 28, fontWeight: 500, color: "#0a0a0b" }}>
-            <div
-              style={{
-                width: 48,
-                height: 48,
-                borderRadius: 12,
-                background: "#1a6bf0",
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              F
-            </div>
+          <div style={{ display: "flex", alignItems: "center", fontSize: 28, fontWeight: 500, color: "#0a0a0b" }}>
             {eyebrow}
           </div>
           <div style={{ fontSize: 76, fontWeight: 300, letterSpacing: "-0.045em", lineHeight: 1.05, color: "#0a0a0b", maxWidth: 960 }}>
