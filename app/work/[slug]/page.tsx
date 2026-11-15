@@ -57,11 +57,12 @@ export default async function WorkPage({ params }: Props) {
   const project = getProject((await params).slug);
   if (!project) notFound();
 
-  const [meta, repo] = await Promise.all([
+  const next = projects[(projects.indexOf(project) + 1) % projects.length];
+  const [meta, repo, nextMeta] = await Promise.all([
     getSiteMeta(project.url),
     project.repo ? getRepo(project.repo) : Promise.resolve(undefined),
+    getSiteMeta(next.url),
   ]);
-  const next = projects[(projects.indexOf(project) + 1) % projects.length];
   const repoOnly = isRepoOnly(project);
   const host = hostOf(project.url);
   const repoUrl = repo?.url ?? (project.repo ? `https://github.com/${project.repo}` : undefined);
@@ -304,18 +305,16 @@ export default async function WorkPage({ params }: Props) {
         </aside>
       </div>
 
-      <Link
-        href={`/work/${next.slug}`}
-        className="group mt-16 flex items-center gap-4 rounded-[var(--radius-card)] border border-line bg-panel p-4 transition-colors hover:border-line-strong sm:p-5"
-      >
-        <span className="min-w-0 flex-1">
-          <span className="block text-[13px] text-t4">Next</span>
-          <span className="block truncate text-lg font-medium tracking-[-0.02em]">{next.name}</span>
-        </span>
-        <span className="text-t4 transition-transform group-hover:translate-x-0.5 group-hover:text-foreground">
-          <Icon icon={ArrowRight01Icon} size={20} />
-        </span>
-      </Link>
+      <div className="mt-16 flex justify-center">
+        <Button asChild variant="outline" size="sm" className="h-9 gap-2 pl-2 pr-3">
+          <Link href={`/work/${next.slug}`} aria-label={`Next: ${next.name}`}>
+            <Favicon src={nextMeta.favicon} logo={next.logo} icon={next.icon} size="xs" />
+            <span className="text-t4">Next</span>
+            <span>{next.name}</span>
+            <Icon icon={ArrowRight01Icon} size={14} />
+          </Link>
+        </Button>
+      </div>
     </article>
   );
 }

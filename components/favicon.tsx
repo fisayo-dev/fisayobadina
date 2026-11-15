@@ -11,13 +11,13 @@ type Props = {
   /** Local logo to try when the favicon is missing or fails to load. */
   logo?: string;
   icon: FallbackIcon;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   className?: string;
 };
 
-const box = { sm: "size-9 rounded-lg", md: "size-11 rounded-[10px]", lg: "size-16 rounded-xl" };
-const img = { sm: "size-5", md: "size-6", lg: "size-9" };
-const glyph = { sm: 18, md: 20, lg: 28 };
+const box = { xs: "size-5 rounded-[5px]", sm: "size-9 rounded-lg", md: "size-11 rounded-[10px]", lg: "size-16 rounded-xl" };
+const img = { xs: "size-3.5", sm: "size-5", md: "size-6", lg: "size-9" };
+const glyph = { xs: 12, sm: 18, md: 20, lg: 28 };
 
 /**
  * Shows a project's favicon. Falls back to the local logo, then to a

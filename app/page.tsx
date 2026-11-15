@@ -114,7 +114,7 @@ export default async function Home() {
 
       {/* Experience */}
       <Section id="experience" title="Experience">
-        <ul className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-panel">
+        <ul className="overflow-hidden rounded-(--radius-card) border border-line bg-panel">
           {experience.map((e, i) => (
             <li
               key={e.href}
@@ -165,7 +165,7 @@ export default async function Home() {
 
       {/* Projects */}
       <Section id="projects" title="Projects">
-        <ul className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-panel">
+        <ul className="overflow-hidden rounded-(--radius-card) border border-line bg-panel">
           {builds.map((p) => (
             <li key={p.slug} className="border-t border-line first:border-t-0">
               <ProjectRow project={p} meta={metaBySlug[p.slug]} />
@@ -178,7 +178,7 @@ export default async function Home() {
       <Section id="contact" title="Get in touch">
         <a
           href={`mailto:${site.email}`}
-          className="group flex items-center gap-4 rounded-[var(--radius-card)] border border-line bg-panel p-4 transition-colors hover:border-line-strong sm:p-5"
+          className="group flex items-center gap-4 rounded-(--radius-card) border border-line bg-panel p-4 transition-colors hover:border-line-strong sm:p-5"
         >
           <span className="grid size-11 shrink-0 place-items-center rounded-[10px] bg-brand text-brand-ink">
             <Icon icon={Mail01Icon} size={20} />
@@ -230,7 +230,7 @@ function ProductCard({ project: p, meta }: { project: Project; meta: SiteMeta })
   return (
     <Link
       href={`/work/${p.slug}`}
-      className="group flex h-full flex-col rounded-[var(--radius-card)] border border-line bg-panel p-5 transition-colors hover:border-line-strong sm:p-6"
+      className="group flex h-full flex-col rounded-(--radius-card) border border-line bg-panel p-5 transition-colors hover:border-line-strong sm:p-6"
     >
       <div className="flex items-start justify-between">
         <Favicon src={meta.favicon} logo={p.logo} icon={p.icon} />
@@ -248,7 +248,7 @@ function ProjectRow({ project: p, meta }: { project: Project; meta: SiteMeta }) 
   return (
     <Link
       href={`/work/${p.slug}`}
-      className="group grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4 px-4 py-4 transition-colors hover:bg-foreground/[0.025] sm:px-5 md:grid-cols-[auto_minmax(0,1fr)_14rem_auto] md:items-center"
+      className="group grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4 px-4 py-4 transition-colors hover:bg-foreground/2.5 sm:px-5 md:grid-cols-[auto_minmax(0,1fr)_14rem_auto] md:items-center"
     >
       <Favicon src={meta.favicon} logo={p.logo} icon={p.icon} size="sm" />
       <span className="min-w-0">
