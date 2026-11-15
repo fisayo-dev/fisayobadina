@@ -1,235 +1,272 @@
 import Image from "next/image";
 import Link from "next/link";
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
-import {
-  ArrowUpRight01Icon,
-  Bookmark02Icon,
-  CertificateIcon,
-  CodeFolderIcon,
-  Download01Icon,
-  Facebook02Icon,
-  Github01Icon,
-  InstagramIcon,
-  JobSearchIcon,
-  Linkedin01Icon,
-  Location01Icon,
-  Mail01Icon,
-  NewTwitterIcon,
-  RssIcon,
-  ShoppingBag01Icon,
-  TestTube01Icon,
-  UserGroupIcon,
-  WhatsappIcon,
-} from "@hugeicons/core-free-icons";
+import { ArrowUpRight01Icon, Download01Icon, Location01Icon, Mail01Icon } from "@hugeicons/core-free-icons";
+import { Button } from "@/components/ui/button";
+import { BrandIcon } from "@/components/brand-icon";
+import { Favicon } from "@/components/favicon";
+import { Icon } from "@/components/icon";
+import { JsonLd } from "@/components/json-ld";
+import { Section } from "@/components/section";
+import { StackIcons } from "@/components/stack";
+import { social } from "@/lib/brands";
+import { builds, hostOf, products, projects, type Project } from "@/lib/projects";
+import { getSiteMeta, type SiteMeta } from "@/lib/site-meta";
+import { experience, site, socials } from "@/lib/site";
 
-interface Project {
-  link: string;
-  name: string;
-  description: string;
-  language: string;
-  event?: string;
-  image?: string;
-  icon?: IconSvgElement;
-}
+export default async function Home() {
+  const [metas, experienceMetas] = await Promise.all([
+    Promise.all(projects.map((p) => getSiteMeta(p.url))),
+    Promise.all(experience.map((e) => getSiteMeta(e.href))),
+  ]);
+  const metaBySlug = Object.fromEntries(projects.map((p, i) => [p.slug, metas[i]])) as Record<string, SiteMeta>;
 
-interface Startup {
-  link: string;
-  name: string;
-  role: string;
-  date: string;
-  logo?: string;
-}
-
-interface Social {
-  name: string;
-  handle: string;
-  href: string;
-  icon: IconSvgElement;
-}
-
-const projects: Project[] = [
-  { link: "https://creativia-eight.vercel.app/", name: "Creativia", description: "A remote-associate test game built to test creative thinking.", language: "Next.js & TypeScript", image: "/logos/creativia.png" },
-  { link: "https://surausers.vercel.app/", name: "Sura — For Users", description: "A credit-scoring system that tracks spending behaviour and helps people build credit for loans.", language: "Next.js & Python", event: "Ecobank Hackathon", image: "/logos/sura.png" },
-  { link: "https://sura-seven.vercel.app/", name: "Sura — For Banks", description: "A credit-scoring API banks can use to evaluate creditworthiness from spending activity.", language: "Next.js & Python", event: "Ecobank Hackathon", image: "/logos/sura.png" },
-  { link: "https://verifyng-three.vercel.app/", name: "VerifyNG", description: "An AI-powered platform for verifying academic certificates and detecting fraud.", language: "Next.js & Python", event: "Squad Hackathon", icon: CertificateIcon },
-  { link: "https://medictranslate-enyata.vercel.app/", name: "Medic Translate", description: "An AI-powered tool for interpreting medical lab results.", language: "TypeScript & Python", event: "Interswitch × Enyata", icon: TestTube01Icon },
-  { link: "https://scanzie.vercel.app", name: "Scanzie", description: "An SEO web analytics platform.", language: "TypeScript", image: "/logos/scanzie.png" },
-  { link: "https://loanparser.vercel.app", name: "Loan Parser", description: "Scans loan documents with AI and parses them into JSON or CSV.", language: "Go & TypeScript", image: "/logos/loanparser.png" },
-  { link: "https://github.com/fisayo-dev/rssagg", name: "RSS Feed Aggregator", description: "A simple RSS feed aggregator for blogs.", language: "Go", icon: RssIcon },
-  { link: "https://bookmark-hub-lilac.vercel.app/", name: "Bookmark Hub", description: "A simple space to save and organise your bookmark links.", language: "Next.js", icon: Bookmark02Icon },
-  { link: "https://raccvoting.vercel.app/", name: "Racc", description: "An online voting space.", language: "React", event: "JSM Hackathon", image: "/logos/racc.png" },
-  { link: "https://github.com/fisayo-dev/shopping_app_api", name: "Shop App API", description: "A modern shopping application API.", language: "Node.js", icon: ShoppingBag01Icon },
-  { link: "https://searchjob.vercel.app/", name: "Joblier", description: "A community for the job market.", language: "React", icon: UserGroupIcon },
-  { link: "https://seekjob.vercel.app/", name: "Seekjob", description: "A platform for people looking for their next role.", language: "React", image: "/logos/seekjob.png" },
-];
-
-const startups: Startup[] = [
-  { link: "https://thefullstackcreators.com", name: "The Full Stack Creators", role: "Developer community", date: "Apr 2025 — Present", logo: "/logos/fsc.svg" },
-  { link: "https://pickogen.online", name: "Pickogen", role: "Design stock assets", date: "Nov — Dec 2025", logo: "/logos/pickogen.png" },
-  { link: "https://printeaze.com", name: "Printeaze", role: "Campus printing", date: "Mar — May 2025", logo: "/logos/printeaze.png" },
-];
-
-const socials: Social[] = [
-  { name: "GitHub", handle: "fisayo-dev", href: "https://github.com/fisayo-dev", icon: Github01Icon },
-  { name: "LinkedIn", handle: "fisayobadina", href: "https://linkedin.com/in/fisayobadina", icon: Linkedin01Icon },
-  { name: "X", handle: "@fisaycoder", href: "https://x.com/fisaycoder", icon: NewTwitterIcon },
-  { name: "Instagram", handle: "@fisayobadina", href: "https://instagram.com/fisayobadina", icon: InstagramIcon },
-  { name: "Facebook", handle: "olufisayo.obadina", href: "https://web.facebook.com/olufisayo.obadina", icon: Facebook02Icon },
-  { name: "WhatsApp", handle: "Send a message", href: "https://wa.me/234906978308", icon: WhatsappIcon },
-];
-
-const email = "olufisayobadina@gmail.com";
-
-function Icon({ icon, size = 16 }: { icon: IconSvgElement; size?: number }) {
-  return <HugeiconsIcon icon={icon} size={size} strokeWidth={1.5} aria-hidden="true" />;
-}
-
-function SectionHeader({ index, title, aside }: { index: string; title: string; aside?: string }) {
   return (
-    <div className="section-header">
-      <h2>{title}</h2>
-      {aside && <span className="section-aside">{aside}</span>}
-    </div>
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": `${site.url}/#person`,
+              name: site.name,
+              alternateName: "Olufisayo Obadina",
+              url: site.url,
+              image: `${site.url}/fisayobadina.jpg`,
+              jobTitle: site.role,
+              email: `mailto:${site.email}`,
+              address: { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
+              alumniOf: { "@type": "CollegeOrUniversity", name: "Covenant University" },
+              knowsAbout: ["TypeScript", "JavaScript", "Go", "Next.js", "React", "Node.js", "SQL"],
+              sameAs: socials.filter((s) => s.name !== "WhatsApp").map((s) => s.href),
+            },
+            {
+              "@type": "WebSite",
+              "@id": `${site.url}/#website`,
+              url: site.url,
+              name: site.name,
+              publisher: { "@id": `${site.url}/#person` },
+            },
+            {
+              "@type": "ItemList",
+              name: "Products and projects by Fisayo Obadina",
+              itemListElement: projects.map((p, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                url: `${site.url}/work/${p.slug}`,
+                name: p.name,
+              })),
+            },
+          ],
+        }}
+      />
+
+      {/* Hero */}
+      <div className="mx-auto max-w-5xl px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-20">
+        <div className="flex items-center gap-3">
+          <Image
+            src="/fisayobadina.jpg"
+            alt="Portrait of Fisayo Obadina"
+            width={48}
+            height={48}
+            priority
+            className="size-12 rounded-xl border border-line object-cover"
+          />
+          <div className="text-sm leading-tight">
+            <p className="font-medium">{site.name}</p>
+            <p className="mt-0.5 flex items-center gap-1 text-t3">
+              <Icon icon={Location01Icon} size={13} />
+              {site.location}
+            </p>
+          </div>
+        </div>
+
+        <h1 className="mt-8 max-w-3xl text-[38px] font-[350] leading-[1.04] tracking-[-0.045em] text-balance sm:mt-10 sm:text-[60px]">
+          Software engineer building <span className="text-brand">useful products</span> for the web.
+        </h1>
+        <div className="mt-5 max-w-2xl space-y-3 text-base leading-relaxed text-t3 sm:text-[17px]">
+          <p>
+            I’m a full-stack engineer with 6+ years of experience, working mostly in TypeScript and Go. I’m studying at
+            Covenant University, I ship products like Valent and Scanzie, and I won the JSM Mastery Hackathon in 2024.
+          </p>
+          <p>
+            In 2026 I interned at <span className="text-foreground">GTCO</span>, researching offline payments over
+            Bluetooth, and at <span className="text-foreground">SQUAD</span>, where I built the backend of an AI tool
+            that automates customer support calls.
+          </p>
+        </div>
+
+        <div className="mt-8 flex flex-col gap-2.5 sm:flex-row">
+          <Button asChild size="lg">
+            <a href={`mailto:${site.email}`}>
+              <Icon icon={Mail01Icon} />
+              Get in touch
+            </a>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <a href={site.resume} download>
+              <Icon icon={Download01Icon} />
+              Download resume
+            </a>
+          </Button>
+        </div>
+      </div>
+
+      {/* Experience */}
+      <Section id="experience" title="Experience">
+        <ul className="overflow-hidden rounded-(--radius-card) border border-line bg-panel">
+          {experience.map((e, i) => (
+            <li
+              key={e.href}
+              className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 border-t border-line px-4 py-5 first:border-t-0 sm:px-5 sm:py-6"
+            >
+              <Favicon src={experienceMetas[i].favicon} icon="briefcase" />
+              <div className="min-w-0">
+                <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                  <a
+                    href={e.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group inline-flex items-center gap-1 font-medium tracking-[-0.02em] hover:text-brand"
+                  >
+                    {e.company}
+                    <Arrow />
+                  </a>
+                  <span className="shrink-0 text-[13px] tabular-nums text-t3">{e.date}</span>
+                </div>
+                <p className="mt-0.5 text-sm text-t2">{e.role}</p>
+                <p className="text-[13px] text-t4">{e.location}</p>
+                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-t3">
+                  {e.points.map((point) => (
+                    <li
+                      key={point}
+                      className="relative pl-4 before:absolute before:left-0 before:top-[0.65em] before:h-px before:w-2 before:bg-t4"
+                    >
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {/* Products */}
+      <Section id="products" title="Products">
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {products.map((p) => (
+            <li key={p.slug}>
+              <ProductCard project={p} meta={metaBySlug[p.slug]} />
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {/* Projects */}
+      <Section id="projects" title="Projects">
+        <ul className="overflow-hidden rounded-(--radius-card) border border-line bg-panel">
+          {builds.map((p) => (
+            <li key={p.slug} className="border-t border-line first:border-t-0">
+              <ProjectRow project={p} meta={metaBySlug[p.slug]} />
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {/* Contact */}
+      <Section id="contact" title="Get in touch">
+        <a
+          href={`mailto:${site.email}`}
+          className="group flex items-center gap-4 rounded-(--radius-card) border border-line bg-panel p-4 transition-colors hover:border-line-strong sm:p-5"
+        >
+          <span className="grid size-11 shrink-0 place-items-center rounded-[10px] bg-brand text-brand-ink">
+            <Icon icon={Mail01Icon} size={20} />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[13px] text-t3">Email</span>
+            <span className="block truncate text-base font-medium tracking-[-0.02em] sm:text-xl">{site.email}</span>
+          </span>
+          <Arrow />
+        </a>
+
+        <ul className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-3">
+          {socials.map((s) => (
+            <li key={s.name}>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noreferrer me"
+                className="group flex items-center gap-3 rounded-xl border border-line bg-panel p-3 transition-colors hover:border-line-strong"
+              >
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-line bg-background text-foreground">
+                  <BrandIcon brand={social[s.name as keyof typeof social]} size={17} />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-medium">{s.name}</span>
+                  <span className="block truncate text-xs text-t3">{s.handle}</span>
+                </span>
+                <Arrow className="hidden sm:block" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </>
   );
 }
 
-export default function Home() {
+function Arrow({ className = "" }: { className?: string }) {
   return (
-    <>
-      <nav className="topbar" aria-label="Primary">
-        <div className="topbar-inner">
-          <Link href="/" className="brand">Fisayo Obadina</Link>
-          <div className="topbar-links">
-            <a href="#projects">Projects</a>
-            <a href="#experience">Experience</a>
-            <a href="#contact">Contact</a>
-          </div>
-          <a className="button button-small" href="/docs/resume.pdf" download>
-            Resume
-            <Icon icon={Download01Icon} size={14} />
-          </a>
-        </div>
-      </nav>
+    <span
+      className={`text-t4 transition-[color,transform] duration-200 ease-out-soft group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground ${className}`}
+    >
+      <Icon icon={ArrowUpRight01Icon} size={16} />
+    </span>
+  );
+}
 
-      <main className="portfolio">
-        <header className="hero">
-          <div className="portrait-wrap">
-            <Image src="/fisayobadina.jpg" alt="Fisayo Obadina" fill priority sizes="(max-width: 640px) 72px, 96px" className="portrait" />
-          </div>
-          <p className="eyebrow">
-            <Icon icon={Location01Icon} size={14} />
-            Lagos, Nigeria
-          </p>
-          <h1>Fisayo Obadina</h1>
-          <p className="hero-line">Software engineer building thoughtful products for the web.</p>
-          <div className="intro">
-            <p>I’m Fisayo, a full-stack engineer with 6+ years of experience. I love solving problems with code and turning ideas into useful products.</p>
-            <p>I work mostly with <strong>JavaScript and TypeScript</strong>, and I’m exploring <strong>Go, Rust and C++</strong>. I’ve competed in the Squad and Interswitch hackathons, and won the <strong>JSM Mastery Hackathon</strong> in 2024.</p>
-          </div>
-          <div className="hero-actions">
-            <a className="button" href={`mailto:${email}`}>
-              Get in touch
-              <Icon icon={Mail01Icon} />
-            </a>
-            <a className="button button-outline" href="/docs/resume.pdf" download>
-              Download resume
-              <Icon icon={Download01Icon} />
-            </a>
-          </div>
-        </header>
+function ProductCard({ project: p, meta }: { project: Project; meta: SiteMeta }) {
+  return (
+    <Link
+      href={`/work/${p.slug}`}
+      className="group flex h-full flex-col rounded-(--radius-card) border border-line bg-panel p-5 transition-colors hover:border-line-strong sm:p-6"
+    >
+      <div className="flex items-start justify-between">
+        <Favicon src={meta.favicon} logo={p.logo} icon={p.icon} />
+        <Arrow />
+      </div>
+      <h3 className="mt-5 text-lg font-medium tracking-[-0.03em]">{p.name}</h3>
+      <p className="mt-0.5 font-mono text-xs text-t4">{hostOf(p.url)}</p>
+      <p className="mt-3 text-[15px] leading-relaxed text-t3">{p.summary}</p>
+      <StackIcons stack={p.stack} className="mt-auto pt-5" />
+    </Link>
+  );
+}
 
-        <section id="projects" className="section">
-          <SectionHeader index="01" title="Selected projects" aside={`${projects.length} projects`} />
-          <div className="project-grid">
-            {projects.map((project) => (
-              <Link target="_blank" rel="noreferrer" href={project.link} key={project.link} className="card project-card">
-                <div className="project-head">
-                  <span className="tile">
-                    {project.image ? (
-                      <Image src={project.image} alt="" width={40} height={40} className="tile-image" />
-                    ) : (
-                      <Icon icon={project.icon ?? CodeFolderIcon} size={22} />
-                    )}
-                  </span>
-                  <span className="card-arrow">
-                    <Icon icon={ArrowUpRight01Icon} size={18} />
-                  </span>
-                </div>
-                <h3>{project.name}</h3>
-                <p>{project.description}</p>
-                <div className="tags">
-                  <span className="tag">{project.language}</span>
-                  {project.event && <span className="tag tag-plain">{project.event}</span>}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section id="experience" className="section">
-          <SectionHeader index="02" title="Startup experience" />
-          <p className="section-intro">Teams I’ve worked with to build and grow products.</p>
-          <div className="row-list">
-            {startups.map((startup) => (
-              <Link target="_blank" rel="noreferrer" href={startup.link} key={startup.link} className="row">
-                <span className="tile">
-                  {startup.logo ? (
-                    <Image src={startup.logo} alt="" width={40} height={40} className="tile-image" />
-                  ) : (
-                    <Icon icon={JobSearchIcon} size={22} />
-                  )}
-                </span>
-                <span className="row-copy">
-                  <h3>{startup.name}</h3>
-                  <span>{startup.role}</span>
-                </span>
-                <span className="row-date">{startup.date}</span>
-                <span className="card-arrow">
-                  <Icon icon={ArrowUpRight01Icon} size={18} />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section id="contact" className="section">
-          <SectionHeader index="03" title="Find me around the web" />
-          <p className="section-intro">Say hello, follow along, or take a look at what I’m building.</p>
-          <a href={`mailto:${email}`} className="card email-card">
-            <span className="tile tile-solid">
-              <Icon icon={Mail01Icon} size={22} />
-            </span>
-            <span className="email-copy">
-              <span className="email-label">Email me</span>
-              <span className="email-address">{email}</span>
-            </span>
-            <span className="card-arrow">
-              <Icon icon={ArrowUpRight01Icon} size={18} />
-            </span>
-          </a>
-          <div className="social-grid">
-            {socials.map((social) => (
-              <Link href={social.href} target="_blank" rel="noreferrer" key={social.name} className="card social-card">
-                <span className="tile tile-small">
-                  <Icon icon={social.icon} size={18} />
-                </span>
-                <span className="social-copy">
-                  <span className="social-name">{social.name}</span>
-                  <span className="social-handle">{social.handle}</span>
-                </span>
-                <span className="card-arrow">
-                  <Icon icon={ArrowUpRight01Icon} size={16} />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <footer className="footer">
-          <span>© {new Date().getFullYear()} Fisayo Obadina</span>
-          <span>Keep building.</span>
-        </footer>
-      </main>
-    </>
+function ProjectRow({ project: p, meta }: { project: Project; meta: SiteMeta }) {
+  return (
+    <Link
+      href={`/work/${p.slug}`}
+      className="group grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4 px-4 py-4 transition-colors hover:bg-foreground/2.5 sm:px-5 md:grid-cols-[auto_minmax(0,1fr)_14rem_auto] md:items-center"
+    >
+      <Favicon src={meta.favicon} logo={p.logo} icon={p.icon} size="sm" />
+      <span className="min-w-0">
+        <span className="flex items-baseline gap-2">
+          <span className="font-medium tracking-[-0.02em]">{p.name}</span>
+          <span className="hidden truncate font-mono text-xs text-t4 sm:inline">{hostOf(p.url)}</span>
+        </span>
+        <span className="mt-0.5 block text-sm leading-snug text-t3">{p.summary}</span>
+        <span className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 md:hidden">
+          <StackIcons stack={p.stack} />
+          {p.event && <span className="text-[13px] text-t4">{p.event}</span>}
+        </span>
+      </span>
+      <span className="hidden flex-col items-end gap-2 md:flex">
+        <StackIcons stack={p.stack} className="justify-end" />
+        {p.event && <span className="text-right text-[13px] text-t3">{p.event}</span>}
+      </span>
+      <Arrow className="self-start md:self-center" />
+    </Link>
   );
 }
