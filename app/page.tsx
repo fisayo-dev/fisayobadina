@@ -62,8 +62,8 @@ export default async function Home() {
       />
 
       {/* Hero */}
-      <div className="mx-auto max-w-5xl px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-20">
-        <div className="flex items-center gap-3">
+      <div className="mx-auto flex max-w-5xl flex-col items-center px-4 pb-14 pt-12 text-center sm:px-6 sm:pb-20 sm:pt-20">
+        <div className="flex items-center gap-3 text-left">
           <Image
             src="/fisayobadina.jpg"
             alt="Portrait of Fisayo Obadina"
@@ -96,7 +96,7 @@ export default async function Home() {
           </p>
         </div>
 
-        <div className="mt-8 flex flex-col gap-2.5 sm:flex-row">
+        <div className="mt-8 flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:justify-center">
           <Button asChild size="lg">
             <a href={`mailto:${site.email}`}>
               <Icon icon={Mail01Icon} />
